@@ -1,8 +1,7 @@
 package com.voyajoy.backend.controller;
 
-import java.util.HashMap;
+
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.http.HttpStatus;
@@ -180,19 +179,5 @@ public class DestinationController {
 		return new ResponseEntity<>(responseList, HttpStatus.OK);
 
 	}
-		
-	@GetMapping("/count")
-	public ResponseEntity<Map<String, Long>>destinationsTotalCount(){
-		
-		
-		Long count =destinationService.getTotalDestinationsCount();
-		
-		Map<String, Long> response = new HashMap<>();
-		response.put("Total count: ", count);
-		
-		return new ResponseEntity<>(response, HttpStatus.OK);
-		
-		
-	}
-
+			
 }
