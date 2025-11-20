@@ -94,7 +94,7 @@ public class DestinationController {
 		DestinationResponse response = new DestinationResponse(
 
 				destination.getDestinationId(), destination.getDestinationName(), destination.getLocation(),
-				destination.getDescription(), destination.getTotalBudget(), destination.getAdvancePayment(),
+			destination.getDescription(), destination.getTotalBudget(), destination.getAdvancePayment(),
 				destination.getImage(), destination.getItinerary(), destination.getCreatedAt(),
 				destination.getUpdatedAt(), "Destination found succesfully");
 
