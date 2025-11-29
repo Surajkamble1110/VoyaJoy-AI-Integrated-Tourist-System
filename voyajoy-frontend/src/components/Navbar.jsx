@@ -22,10 +22,13 @@ const Navbar = () => {
 
             <div className="flex gap-6 items-center">
                 {/*Home*/}
-                <Link to='/home'className="hover:text-gray-200">
+                <Link to='/'className="hover:text-gray-200">
                 Home
                 </Link>
                 {/*Destination*/}
+                <Link to="/destinations" className="hover:text-gray-200">
+                Destination
+                </Link>
                 
                  {/*If user loged in*/}
                 {user?(
@@ -42,11 +45,11 @@ const Navbar = () => {
 
                     {user.role=="MANAGER" && (
                         <>
-                        <LinL to=''>Dashboard</LinL>
+                        <Link to=''>Dashboard</Link>
                         </>
                     )}
 
-                    <button onLClick={handleLogout}
+                    <button onClick={handleLogout}
                     className="bg-red-600 px-4 py-2 rounded hover:bg-red-700"
                     >
                         Logout

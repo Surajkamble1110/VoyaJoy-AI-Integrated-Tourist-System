@@ -8,6 +8,8 @@ import com.voyajoy.backend.dto.BookingRequest;
 import com.voyajoy.backend.entity.Booking;
 import com.voyajoy.backend.entity.Destination;
 import com.voyajoy.backend.entity.User;
+import com.voyajoy.backend.exception.InvalidInputException;
+import com.voyajoy.backend.exception.ResourceNotFoundException;
 import com.voyajoy.backend.repository.IBookingRepository;
 import com.voyajoy.backend.repository.IDestinationRepository;
 import com.voyajoy.backend.repository.IUserRepository;
@@ -60,7 +62,7 @@ public class BookingService implements IBookingService {
 	  public List<Booking> getAllBookingsOfUser(Long userId){
 		
 		if(!(userRepository.existsById(userId))) {
-		    throw new RuntimeException("User not  found");
+		    throw new ResourceNotFoundException("User Id not found: " + userId);
 		}
 		
 	     return  bookingRepository.findByUserUserId(userId);		
@@ -70,16 +72,15 @@ public class BookingService implements IBookingService {
 	  public Booking getBookingDetailsById(Long bookingId) {
 		  
 		 return  bookingRepository.findById(bookingId)
-				 .orElseThrow(()-> new RuntimeException("Booking not found!"));
-		  
-		  
+		.orElseThrow(()-> new ResourceNotFoundException("Booking-Id not found: " + bookingId));
+		  		  
 	  }
 
 	@Override
 	public Booking updateBookingStatus(Long bookingId, String newStatus) {
 		
 	Booking booking	= bookingRepository.findById(bookingId)
-			.orElseThrow(()->new RuntimeException("Booking not found!"));
+			.orElseThrow(()->new ResourceNotFoundException("Booking-Id not found: " + bookingId));
 	
 	      
 	booking.setBookingStatus(newStatus);
@@ -110,7 +111,7 @@ public class BookingService implements IBookingService {
 		
 		if(!(destinationRepository.existsById(destinationId))) {
 			
-			throw new RuntimeException("Destination not found!");
+			throw new ResourceNotFoundException("Destination-Id not found: " + destinationId);
 		}
 		
 		 return bookingRepository.findByDestinationDestinationId(destinationId);
@@ -121,11 +122,12 @@ public class BookingService implements IBookingService {
 	public void deleteBooking(Long bookingId) {
 		
 		Booking booking = bookingRepository.findById(bookingId)
-				.orElseThrow(()-> new RuntimeException("Booking not found"));
+				.orElseThrow(()-> new ResourceNotFoundException("Booking not found with Id: " + bookingId));
 		
 		if(booking.getBookingStatus().equals("CONFIRMED")) {
 			
-			throw new RuntimeException("Booking cannot be cancel!");
+			throw new InvalidInputException(
+			"Cannot cancel Confirmed booking only Pending booking can be cancel!");
 			
 		}
 		

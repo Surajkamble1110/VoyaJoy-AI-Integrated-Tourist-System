@@ -2,10 +2,11 @@ import { useContext, useState } from "react"
 import { AuthContext } from "../../context/AuthContext";
 import authService from './../../services/authService';
 import { useNavigate } from "react-router-dom";
+import ErrorHandler, { getErrorMessage } from "../../services/ErrorHandler";
 
 const Login = () => {
 const navigate=  useNavigate();
- const {login , error, setError} =useContext(AuthContext);
+ const {login , setError: setContextError } =useContext(AuthContext);
 
  const [formData, setFormData] = useState({
    
@@ -14,7 +15,7 @@ const navigate=  useNavigate();
  });
 
  const [loading, setLoading] = useState(false);
-
+ const [error, setError] = useState(null);
  const handleChange=(e)=>{
 
  const { name, value}  = e.target;
@@ -30,7 +31,6 @@ const navigate=  useNavigate();
   setError(null);
   try{
   const response= await authService.login(formData);
-  console.log("Login Successful", response.data); 
   login(response.data); 
   if(response.data.role=='CUSTOMER'){
     navigate("/customer/dashboard");
@@ -42,8 +42,13 @@ const navigate=  useNavigate();
   }
  
 }catch(err){
+  
   console.log("Login Failed", err);
-  setError(err.response?.data?.msg || "Login failed");
+  const errorMsg = getErrorMessage(err);
+  setError(err);
+  setContextError(errorMsg);
+
+
   }finally{
     setLoading(false);
   }
@@ -53,10 +58,11 @@ const navigate=  useNavigate();
     <div className="min-h-screen flex items-center justify-center bg-gray-50">
       <div className="max-w-md w-full bg-white p-8 rounded-lg shadow-md">
         <h2 className="text-2xl font-bold text-center mb-6">Login</h2>
-        {error &&(
-          <div className="bg-red-100 text-red-700 p-3 rounded mb-4">
-          error</div>
-        )}
+        
+         <ErrorHandler 
+          error={error} 
+          onClose={() => setError(null)} 
+        />
 
         <form onSubmit={handleSubmit}>
           <input
@@ -73,14 +79,14 @@ const navigate=  useNavigate();
           value={formData.password}
           placeholder="Enter password"
           onChange={handleChange}
-          className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full px-4 py-2 mt-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
           <button
           type="submit"
           disabled={loading}
-          className="w-full bg-blue-600 text-white py-2 rounded-lg font-semibold hover:bg-blue-700 disabled:opacity-50"
+          className="w-full bg-blue-600 text-white py-2 mt-3 rounded-lg font-semibold hover:bg-blue-700 disabled:opacity-50"
           >
-            {loading ? "Logging in...": "Logging"}
+            {loading ? "Logging in...": "Login"}
           </button>
         </form>
 

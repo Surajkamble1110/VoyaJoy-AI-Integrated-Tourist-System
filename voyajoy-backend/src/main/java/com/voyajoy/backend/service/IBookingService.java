@@ -18,4 +18,5 @@ public interface IBookingService {
 	Long getTotalBookingsCount();
 	Long getPendingBookingsCount();
 
+
 }

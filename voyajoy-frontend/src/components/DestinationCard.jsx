@@ -23,7 +23,7 @@ const DestinationCard = ({destination}) => {
             </p>
 
             <Link 
-            to={`/destination/${destination.destinationId}`}
+            to={`/destinations/${destination.destinatonId}`}
              className="w-full bg-blue-600 text-white py-2 rounded-lg text-center hover:bg-blue-700 transition"
              >View Details
             </Link>

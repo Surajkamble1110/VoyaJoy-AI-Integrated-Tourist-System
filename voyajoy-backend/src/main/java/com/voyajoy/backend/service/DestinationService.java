@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import com.voyajoy.backend.dto.DestinationRequest;
 import com.voyajoy.backend.entity.Destination;
+import com.voyajoy.backend.exception.DuplicateResourceException;
+import com.voyajoy.backend.exception.ResourceNotFoundException;
 import com.voyajoy.backend.repository.IDestinationRepository;
 
 @Service
@@ -24,7 +26,7 @@ public class DestinationService implements IDestinationService{
 		
 		if(destinationRepository.existsByDestinationName(request.getDestinationName())){
 			
-			throw new RuntimeException("Destination already exsists!");
+			throw new DuplicateResourceException("Destination already exsists: " + request.getDestinationName());
 		}
 		
 		Destination destination = new Destination();
@@ -50,14 +52,15 @@ public class DestinationService implements IDestinationService{
 	@Override
 	public Destination getDestinationById(Long id) {
 		
-		return destinationRepository.findById(id).orElseThrow(()-> new RuntimeException("Destionation not found"));
-		
+		return destinationRepository.findById(id)
+			.orElseThrow(()-> new  ResourceNotFoundException("Destionation Id not found " + id));		
 	}
 
 	@Override
 	public Destination updateDestination(Long id, DestinationRequest request) {
 		
-	Destination destination =destinationRepository.findById(id).orElseThrow(()-> new RuntimeException("Destionation not found"));
+	Destination destination =destinationRepository.findById(id)
+	 .orElseThrow(()-> new ResourceNotFoundException("Destionation id no found " + id));
 	 
 	
 	destination.setDestinationName(request.getDestinationName());
@@ -77,21 +80,19 @@ public class DestinationService implements IDestinationService{
 	public void deleteDestination(Long destinationId) {
 	
 		Destination destination =  destinationRepository.findById(destinationId)
-				 .orElseThrow(()-> new RuntimeException("Destination not found"));
+				 .orElseThrow(()-> new ResourceNotFoundException("Destinatin Id not found: " + destinationId));
 		 
 		 
 		destinationRepository.delete(destination);	 
-		 
-		
+		 		
 	}
 	
 	
 	@Override
 	public Destination searchDestinationByName(String destinationName) {
 
-			
 			return destinationRepository.findByDestinationName(destinationName)
-		    .orElseThrow(()-> new RuntimeException("Destination not found!"));
+		    .orElseThrow(()-> new ResourceNotFoundException("Destination not found: " + destinationName));
 		
 	}
 

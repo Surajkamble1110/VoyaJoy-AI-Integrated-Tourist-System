@@ -2,22 +2,29 @@ package com.voyajoy.backend.service;
 
 import java.util.List;
 
-
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.voyajoy.backend.dto.LoginRequest;
 import com.voyajoy.backend.dto.RegisterRequest;
 import com.voyajoy.backend.entity.User;
+import com.voyajoy.backend.exception.DuplicateResourceException;
+import com.voyajoy.backend.exception.ResourceNotFoundException;
+import com.voyajoy.backend.exception.UnauthorizedException;
 import com.voyajoy.backend.repository.IUserRepository;
 
 @Service
 public class UserService implements IUserService {
 	
 	private final IUserRepository userRepository;
+	private final PasswordEncoder passwordEncoder;
+
 	
-	public UserService(IUserRepository usrerRepository ) {
+	public UserService(IUserRepository usrerRepository, PasswordEncoder passwordEncoder) {
 	  
 		this.userRepository= usrerRepository;
+		this.passwordEncoder = passwordEncoder;
 	}
 	
 	
@@ -26,20 +33,20 @@ public class UserService implements IUserService {
 		
 		if(userRepository.existsByUsername(request.getUsername())) {
 			
-			throw new RuntimeException("User already exists!");
+			throw new DuplicateResourceException("Username already exist: " + request.getUsername());
 		}
 
 		
 		if(userRepository.existsByEmail(request.getEmail())){
 			
-			throw new RuntimeException("User already exists!");
+			throw new DuplicateResourceException("Email already exist: " + request.getEmail());
 		}
 		
 		User user = new User();
 		
 		user.setUsername(request.getUsername());
 		user.setEmail(request.getEmail());
-		user.setPassword(request.getPassword());
+		user.setPassword(passwordEncoder.encode(request.getPassword()));
 		user.setPhoneNumber(request.getPhoneNumber());
 		user.setRole(request.getRole());
 		
@@ -51,11 +58,11 @@ public class UserService implements IUserService {
 	public User loginUser(LoginRequest request) {
 		
 	 User user = userRepository.findByUsername(request.getUsername())
-			 .orElseThrow(()-> new RuntimeException("User not found!"));
+			 .orElseThrow(()-> new ResourceNotFoundException("User not found with username: " + request.getUsername()));
 	 
-	 if(!user.getPassword().equals(request.getPassword())) {
+	 if(!(passwordEncoder.matches(request.getPassword(), user.getPassword()))) {
 		 
-		 throw new RuntimeException("Invalid Credentials");
+		 throw new UnauthorizedException("Invalid Password");
 		}
 	 
 	 
@@ -67,7 +74,7 @@ public class UserService implements IUserService {
 	public User getUserById(Long id) {
 		
 		return userRepository.findById(id)
-		.orElseThrow(()-> new RuntimeException("User not found!"));
+		.orElseThrow(()-> new ResourceNotFoundException ("UserId not found: " + id));
 		 
 	}
 

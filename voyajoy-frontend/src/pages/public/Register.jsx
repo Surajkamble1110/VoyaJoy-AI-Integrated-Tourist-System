@@ -2,11 +2,12 @@ import { useContext, useState } from "react"
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 import authService from "../../services/authService";
+import ErrorHandler, { getErrorMessage } from "../../services/ErrorHandler";
 
 const Register = () => {
 
   const navigate = useNavigate();
-  const { register, error, setError } = useContext(AuthContext);
+  const { register, setError: setContextError } = useContext(AuthContext);
 
   const [formData, setFormData] = useState({
 
@@ -26,6 +27,7 @@ const Register = () => {
   };
 
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null); 
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -36,15 +38,19 @@ const Register = () => {
 
       const response = await authService.register(formData);
 
-      console.log(response.data);
+      
       register(response.data);
       alert("Registertraion Successfull! Please Login");
 
       navigate("/login");
 
     } catch (err) {
-      console.log("Registration Error", err)
-      setError(err.response?.data?.msg || "Registration failed");
+      console.log("Registration Error", err);
+
+      const errorMessage = getErrorMessage(err);
+      setError(err);  
+      setContextError(errorMessage);
+    
     } finally {
       setLoading(false);
     }
@@ -55,11 +61,14 @@ const Register = () => {
     <div className="min-h-screen flex items-center justify-center bg-gray-50">
       <div className="max-w-md w-full bg-white p-8 rounded-lg shadow-md">
         <h2 className="text-2xl font-bold text-center mb-6"> Register</h2>
-        {error && (
-          <div className="bg-red-100 text-red-700 p-3 rounded mb-4">
-            {error}
-          </div>
-        )}
+
+         <ErrorHandler 
+          error={error} 
+          onClose={() => setError(null)} 
+        />
+
+      
+      
 
         <form onSubmit={handleSubmit} className="space-y-4">
           {/* name*/}

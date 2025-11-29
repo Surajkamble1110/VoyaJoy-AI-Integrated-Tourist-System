@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -31,6 +32,7 @@ public class DestinationController {
 		this.destinationService = destinationService;
 	}
 
+	@PreAuthorize("hasRole('MANAGER')")
 	@PostMapping("/add-destination")
 	public ResponseEntity<DestinationResponse> setDestination(@RequestBody DestinationRequest request) {
 
@@ -85,6 +87,7 @@ public class DestinationController {
 
 	}
 
+	 @PreAuthorize("hasRole('MANAGER')")
 	@PutMapping("/update-destination/{id}")
 	public ResponseEntity<DestinationResponse> modifyDestination(@PathVariable Long id,
 			@RequestBody DestinationRequest request) {
@@ -102,6 +105,7 @@ public class DestinationController {
 
 	}
 
+	@PreAuthorize("hasRole('MANAGER')") 
 	@DeleteMapping("/delete-destination/{id}")
 	public ResponseEntity<String> removeDestination(@PathVariable Long id) {
 

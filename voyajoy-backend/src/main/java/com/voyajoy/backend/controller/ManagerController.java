@@ -3,7 +3,7 @@ package com.voyajoy.backend.controller;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
+
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,11 +13,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.voyajoy.backend.dto.AuthResponse;
+
 import com.voyajoy.backend.dto.BookingResponse;
+import com.voyajoy.backend.dto.UserResponse;
 import com.voyajoy.backend.entity.Booking;
 import com.voyajoy.backend.entity.User;
 import com.voyajoy.backend.mapper.BookingMapper;
+import com.voyajoy.backend.mapper.UserMapper;
 import com.voyajoy.backend.service.IBookingService;
 import com.voyajoy.backend.service.IDestinationService;
 import com.voyajoy.backend.service.IUserService;
@@ -43,25 +45,11 @@ public class ManagerController {
 	
 	
 	@GetMapping("/customers")
-	public ResponseEntity<List<AuthResponse>> getCostumers(){
+	public ResponseEntity<List<UserResponse>> getCostumers(){
 		
 		List<User> customers = userService.getAllCustomers();
 		
-	List<AuthResponse> responseList =	customers.stream().map((user)->{
-			
-			 AuthResponse response = new AuthResponse();
-			
-			        response.setUserId(user.getUserId());
-			        response.setUsername(user.getUsername());
-			        response.setEmail(user.getEmail());
-			        response.setPhoneNumber(user.getPhoneNumber());
-			        response.setRole(user.getRole());
-			        response.setMsg("Customer data");
-			        
-			        return response;
-			        
-		}).collect(Collectors.toList());
-		
+		List<UserResponse>  responseList = UserMapper.toResponseList(customers);
 		
 		return new ResponseEntity<>(responseList, HttpStatus.OK);
 		
@@ -69,22 +57,11 @@ public class ManagerController {
 	
 	
 	@GetMapping("/users")
-	public ResponseEntity<List<AuthResponse>> fetchAllUsers(){
+	public ResponseEntity<List<UserResponse>> fetchAllUsers(){
 		
 	List<User> 	users = userService.getAllUsers();
 	
-	List<AuthResponse> responseList  =  users.stream().map((user)->{
-		
-		AuthResponse response = new AuthResponse();
-		response.setUserId(user.getUserId());
-		response.setUsername(user.getUsername());
-		response.setEmail(user.getEmail());
-		response.setPhoneNumber(user.getPhoneNumber());
-		response.setRole(user.getRole());
-		response.setMsg("Data fetched Successfuly!");
-		
-		return response;
-	}).collect(Collectors.toList());
+	List<UserResponse>  responseList = UserMapper.toResponseList(users);
 	
 	   return new ResponseEntity<>( responseList , HttpStatus.OK);
 	
@@ -186,7 +163,6 @@ public class ManagerController {
 		
 		return new ResponseEntity<>(response, HttpStatus.OK); 
 	}
-	
 	
 
 }

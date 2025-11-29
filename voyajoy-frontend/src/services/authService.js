@@ -13,7 +13,7 @@ const authService= {
 
     getProfile : (userId)=>{
 
-        return api.get(`/auth/profile",${userId}`);
+        return api.get(`/user/profile"/${userId}`);
     },
 
 

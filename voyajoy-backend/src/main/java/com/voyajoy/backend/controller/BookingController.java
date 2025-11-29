@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -32,7 +33,7 @@ public class BookingController {
 	}
 	
 	
-	
+	@PreAuthorize("hasRole('CUSTOMER')")	
 	@PostMapping("/create/{uid}/{did}")
 	public ResponseEntity<BookingResponse> initializeBooking(@RequestBody BookingRequest request, 
 			                                            @PathVariable("uid") Long userId, 
@@ -44,7 +45,8 @@ public class BookingController {
 		
 		return new ResponseEntity<>(response, HttpStatus.CREATED);
 	}
-		
+	
+	@PreAuthorize("hasRole('CUSTOMER')")
 	@GetMapping("/my-bookings/{id}")
 	public ResponseEntity<List<BookingResponse>> getMyBookings(@PathVariable("id")
 	                                                           Long userId){
@@ -58,6 +60,7 @@ public class BookingController {
 		
 	}
 	
+	 @PreAuthorize("hasRole('CUSTOMER')")
 	@GetMapping("/get-by-id/{id}")
 	public ResponseEntity<BookingResponse> bookingDetailsById(@PathVariable("id")
 	                                                            Long bookingId){
@@ -70,6 +73,7 @@ public class BookingController {
 	}
 	
 	
+	 @PreAuthorize("hasRole('CUSTOMER')")
 	@DeleteMapping("/delete/{bookingId}")
 	public ResponseEntity<Map<String,String>> cancelBooking(@PathVariable Long bookingId ){
 		
