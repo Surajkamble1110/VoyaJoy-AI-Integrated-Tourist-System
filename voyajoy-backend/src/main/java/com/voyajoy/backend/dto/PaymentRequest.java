@@ -11,6 +11,7 @@ public class PaymentRequest {
 
     private Long bookingId;
     private Double amount;
-    private String paymentMethod;  // UPI, CARD
-    private String transactionId; 
+    private String paymentMethod;  
+    private String transactionId;
+    
 }

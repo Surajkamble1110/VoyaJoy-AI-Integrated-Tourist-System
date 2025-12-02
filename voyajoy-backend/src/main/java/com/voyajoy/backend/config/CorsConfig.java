@@ -9,7 +9,7 @@ public class CorsConfig implements WebMvcConfigurer{
 	
 	 @Override
 	    public void addCorsMappings(CorsRegistry registry) {
-	        registry.addMapping("/api/**")
+	        registry.addMapping("/voyajoy/api/**")
 	            .allowedOrigins("http://localhost:3000", "http://localhost:5173")
 	            .allowedMethods("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS")
 	            .allowedHeaders("*")

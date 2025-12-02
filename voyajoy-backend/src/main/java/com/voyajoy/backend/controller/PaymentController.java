@@ -12,13 +12,17 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.razorpay.RazorpayException;
+import com.voyajoy.backend.dto.CreateOrderRequest;
+import com.voyajoy.backend.dto.OrderResponse;
 import com.voyajoy.backend.dto.PaymentRequest;
 import com.voyajoy.backend.dto.PaymentResponse;
+import com.voyajoy.backend.dto.VerifyPaymentRequest;
 import com.voyajoy.backend.entity.Payment;
 import com.voyajoy.backend.mapper.PaymentMapper;
 import com.voyajoy.backend.service.IPaymentService;
 
-@RequestMapping("/api/payment")
+@RequestMapping("/voyajoy/api/payment")
 @RestController
 public class PaymentController {
 	
@@ -28,17 +32,33 @@ public class PaymentController {
         this.paymentService = paymentService;
     }
 
-    // Create payment (Customer only)
-    @PostMapping("/create")
+    
+    @PostMapping("/create-order")
     @PreAuthorize("hasRole('CUSTOMER')")
-    public ResponseEntity<PaymentResponse> createPayment(@RequestBody PaymentRequest request) {
+    public ResponseEntity<OrderResponse> createPaymentOrder(
+    		@RequestBody CreateOrderRequest  request) throws RazorpayException {
         
-        Payment payment = paymentService.createPayment(request);
-        PaymentResponse response = PaymentMapper.toResponse(payment);
-        
+        OrderResponse response= paymentService.createOrder(request);
+       
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
-
+    
+    
+    
+    @PostMapping("/verify")
+    @PreAuthorize("hasRole('CUSTOMER')")
+    public ResponseEntity<PaymentResponse> verifyPayment(
+    		@RequestBody VerifyPaymentRequest request) throws Exception {
+        
+        Payment  payment= paymentService.verifyAndSavePayment(request);
+        
+        PaymentResponse response = PaymentMapper.toResponse(payment);
+       
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
+    }
+    
+    
+   
     // Get payment by ID
     @GetMapping("/get-by-id/{paymentId}")
     public ResponseEntity<PaymentResponse> getPayment(@PathVariable Long paymentId) {

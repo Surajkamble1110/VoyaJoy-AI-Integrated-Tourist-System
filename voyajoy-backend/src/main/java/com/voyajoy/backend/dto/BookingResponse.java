@@ -19,6 +19,7 @@ public class BookingResponse {
 	private Integer totalTravelers;
 	private Double totalAmount;
 	private Boolean advancePaid;
+	private Double advancePayment;
 	private String specialRequest;
 	private String bookingStatus;
 	private Long userId;

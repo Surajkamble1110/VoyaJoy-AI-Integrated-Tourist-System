@@ -24,7 +24,7 @@ import com.voyajoy.backend.service.IBookingService;
 import com.voyajoy.backend.service.IDestinationService;
 import com.voyajoy.backend.service.IUserService;
 
-@RequestMapping("/api/manager")
+@RequestMapping("/voyajoy/api/manager")
 @RestController
 public class ManagerController {
 

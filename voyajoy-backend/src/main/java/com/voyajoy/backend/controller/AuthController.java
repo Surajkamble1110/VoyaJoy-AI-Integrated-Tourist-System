@@ -17,7 +17,7 @@ import com.voyajoy.backend.entity.User;
 import com.voyajoy.backend.mapper.AuthMapper;
 import com.voyajoy.backend.service.IUserService;
 
-@RequestMapping("/api/auth")
+@RequestMapping("/voyajoy/api/auth")
 @RestController
 public class AuthController {
 	

@@ -1,7 +1,7 @@
 import axios from "axios";
 
 
-const API_BASE_URL = "http://localhost:9090/VoyaJoy/api";
+const API_BASE_URL = "http://localhost:9090/voyajoy/api";
 
 const api = axios.create({
 
@@ -20,7 +20,7 @@ api.interceptors.request.use(
 
     if(token){
 
-      config.headers.Authorization = `Beaer ${token}`;
+      config.headers.Authorization = `Bearer ${token}`;
     }
 
     return config;
@@ -43,7 +43,7 @@ api.interceptors.response.use(
 
       localStorage.removeItem('token');
       localStorage.removeItem('user');
-      window.location.storage='/login';
+      window.location.href='/login';
 
     }
 

@@ -13,7 +13,7 @@ import com.voyajoy.backend.mapper.UserMapper;
 import com.voyajoy.backend.service.IUserService;
 
 
-@RequestMapping("/api/user")
+@RequestMapping("/voyajoy/api/user")
 @RestController
 public class UserController {
 

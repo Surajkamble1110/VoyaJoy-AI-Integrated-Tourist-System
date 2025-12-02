@@ -21,7 +21,7 @@ import com.voyajoy.backend.dto.DestinationResponse;
 import com.voyajoy.backend.entity.Destination;
 import com.voyajoy.backend.service.IDestinationService;
 
-@RequestMapping("/api/destination")
+@RequestMapping("/voyajoy/api/destination")
 @RestController
 public class DestinationController {
 

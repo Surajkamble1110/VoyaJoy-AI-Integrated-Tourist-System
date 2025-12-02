@@ -21,7 +21,7 @@ import com.voyajoy.backend.entity.Booking;
 import com.voyajoy.backend.mapper.BookingMapper;
 import com.voyajoy.backend.service.IBookingService;
 
-@RequestMapping("/api/booking")
+@RequestMapping("/voyajoy/api/booking")
 @RestController
 public class BookingController {
 	
