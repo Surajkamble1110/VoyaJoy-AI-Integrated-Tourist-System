@@ -12,6 +12,7 @@ import BookingConfirmation from './pages/auth/BookingConfirmation'
 import ManagerDashboard from './pages/auth/ManagerDashboard'
 import CustomerDashboard from './pages/auth/CustomerDashboard'
 import Layout from './components/Layout'
+import ManageDestinations from './pages/auth/ManageDestinations'
 
 const App = () => {
   return (
@@ -30,6 +31,7 @@ const App = () => {
          <Route path="/customer/dashboard" element={<CustomerDashboard/>}/>
         <Route path="/customer/bookings" element={<CustomerDashboard/>}/> 
         <Route path="/manager/dashboard" element={<ManagerDashboard/>}/>
+        <Route path="/manager/destinations" element={<ManageDestinations/>}/>
         </Routes>
         
         </Layout>

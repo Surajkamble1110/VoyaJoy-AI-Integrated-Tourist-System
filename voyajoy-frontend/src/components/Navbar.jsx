@@ -73,7 +73,7 @@ const Navbar = () => {
                         <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-pink-200 group-hover:w-full transition-all"></span>
                       </Link>
                       <Link 
-                        to='/destinations' 
+                        to='/manager/destinations' 
                         className="hover:text-pink-200 transition font-medium relative group"
                       >
                         ⚙️ Manage

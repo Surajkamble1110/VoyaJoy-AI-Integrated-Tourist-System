@@ -90,88 +90,93 @@ const Destinations = () => {
         }
 
     return (
-    <div  className="min-h-screen bg-gray-50">
-        {/* Header */}
-      <div className="bg-blue-600 text-white py-12">
-        <div className="max-w-7xl mx-auto px-4">
-          <h1 className="text-4xl font-bold mb-4">All Destinations</h1>
-          <p className="text-lg">
-            Discover {destinations.length} amazing places to visit
+        <div className="min-h-screen bg-linear-to-b from-purple-50 to-pink-50">
+      
+      {/* HEADER */}
+      <div className="bg-linear-to-r from-purple-600 to-pink-600 text-white py-16 shadow-lg">
+        <div className="max-w-7xl mx-auto px-6 text-center">
+          <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight">
+            Explore All Destinations
+          </h1>
+          <p className="text-lg md:text-xl mt-2 text-purple-100">
+            Discover {destinations.length} beautiful places across India
           </p>
         </div>
       </div>
-      {/* Search and Filter */}
-      <div className="max-w-7xl mx-auto px-4 py-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
-          {/* Search Bar */}
-        <form onSubmit={searchHandler} className="flex gap-2">
-            <input
-            type="text"
-            placeholder="Searcch destinations..."
-            value={searchQuery}
-            onChange={(e)=>{setSearchQuery(e.target.value)}}
-            className="flex-1 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-            <button type="submit"
-             className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700"
+
+      {/* SEARCH + FILTER SECTION */}
+      <div className="max-w-7xl mx-auto px-6 py-10">
+        <div className="bg-white/70 backdrop-blur-xl p-5 rounded-2xl shadow-xl border border-white/40">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+            
+            {/* Search */}
+            <form onSubmit={searchHandler} className="flex gap-3 col-span-2">
+              <input
+                type="text"
+                placeholder="Search destinations..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full px-4 py-3 rounded-xl border border-purple-300 focus:ring-2 focus:ring-purple-500 focus:outline-none shadow-sm"
+              />
+              <button
+                type="submit"
+                className="px-6 py-3 rounded-xl bg-linear-to-r from-purple-600 to-pink-600 text-white font-semibold shadow-md hover:opacity-90 transition"
+              >
+                Search
+              </button>
+            </form>
+
+            {/* Filter */}
+            <select
+              value={filterLocation}
+              onChange={handlerLocation}
+              className="px-4 py-3 rounded-xl border border-purple-300 focus:ring-2 focus:ring-purple-500 focus:outline-none shadow-sm"
             >
-            search
-            </button>
-        </form>
-
-        <select
-        value={filterLocation}
-        onChange={handlerLocation}
-        className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-        >
-
-            <option value=""> All location</option>
-            <option value="Goa"> Goa</option>
-            <option value="Kerela"> Kerela</option>
-            <option value="Banglore"> Banglore</option>
-            <option value="Pune"> Pune</option>
-            <option value="Mumbai"> Mumbai</option>
-
-        </select>
+              <option value="">All Locations</option>
+              <option value="Goa">Goa</option>
+              <option value="Kerela">Kerela</option>
+              <option value="Banglore">Banglore</option>
+              <option value="Pune">Pune</option>
+              <option value="Mumbai">Mumbai</option>
+            </select>
+          </div>
         </div>
 
-         {/* Loading */}
+        {/* LOADING */}
         {loading && (
-          <div className="text-center py-12">
-            <p className="text-gray-600">Loading destinations...</p>
+          <div className="text-center py-16">
+            <p className="text-gray-600 text-lg animate-pulse">
+              Loading destinations...
+            </p>
           </div>
         )}
 
-         
-        
-        <ErrorHandler 
-          error={error} 
-          onClose={() => setError(null)} 
-        />
+        {/* ERROR HANDLER */}
+        <ErrorHandler error={error} onClose={() => setError(null)} />
 
-       {/* Destinations Grid */}
-        {!loading && !error && destinations.length>0 &&(
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {destinations.map((destination)=>(
-               <DestinationCard
+        {/* DESTINATIONS GRID */}
+        {!loading && !error && destinations.length > 0 && (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mt-10">
+            {destinations.map((destination) => (
+              <DestinationCard
                 key={destination.destinationId}
                 destination={destination}
-               />
+              />
             ))}
-            </div>
+          </div>
         )}
 
-        {/* No Results */}
-        {!loading && !error && destinations.length==0 && (
-         <div className="text-center py-12">
+        {/* NO RESULTS */}
+        {!loading && !error && destinations.length === 0 && (
+          <div className="text-center py-16">
             <p className="text-gray-600 text-lg">
               No destinations found
             </p>
           </div>
         )}
-</div>
-</div>
+      </div>
+    </div>
   );
 };
-
+    
 export default Destinations;
