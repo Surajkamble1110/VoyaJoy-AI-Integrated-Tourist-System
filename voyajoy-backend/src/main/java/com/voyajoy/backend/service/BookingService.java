@@ -50,7 +50,8 @@ public class BookingService implements IBookingService {
 		booking.setDestination(destination);
 		booking.setTravelDate(request.getTravelDate());
 		booking.setTotalTravelers(request.getTotalTravelers());
-		booking.setTotalAmount(destination.getTotalBudget());
+		Double totalCost =  destination.getTotalBudget()* request.getTotalTravelers();
+		booking.setTotalAmount(totalCost);
 		booking.setAdvancePaid(false);
 		booking.setSpecialRequest(request.getSpecialRequest());
 		booking.setBookingStatus("PENDING");

@@ -58,93 +58,107 @@ const Register = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50">
-      <div className="max-w-md w-full bg-white p-8 rounded-lg shadow-md">
-        <h2 className="text-2xl font-bold text-center mb-6"> Register</h2>
+   <div className="min-h-screen bg-linear-to-br from-purple-600 via-pink-500 to-pink-400 flex items-center justify-center px-4 py-10">
+      <div className="w-full max-w-md bg-white rounded-2xl shadow-2xl p-8 relative overflow-hidden">
+        
+        {/* Glow Background */}
+        <div className="absolute inset-0 bg-linear-to-br from-purple-200 via-pink-100 to-white opacity-30 blur-2xl"></div>
 
-         <ErrorHandler 
-          error={error} 
-          onClose={() => setError(null)} 
-        />
+        <div className="relative z-10">
+          <h2 className="text-4xl font-extrabold text-center mb-6 bg-linear-to-r from-purple-700 via-pink-600 to-pink-500 bg-clip-text text-transparent">
+            Create Your Account
+          </h2>
 
-      
-      
+          <ErrorHandler error={error} onClose={() => setError(null)} />
 
-        <form onSubmit={handleSubmit} className="space-y-4">
-          {/* name*/}
-          <input
-            type="text"
-            name="username"
-            placeholder="Enter your name"
-            value={formData.username}
-            onChange={handleChange}
-            required
-            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
+          <form onSubmit={handleSubmit} className="space-y-4 mt-6">
 
-          {/* Passsword*/}
-          <input
-            type="password"
-            name="password"
-            placeholder="Enter password"
-            value={formData.password}
-            onChange={handleChange}
-            required
-            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
+            {/* Username */}
+            <input
+              type="text"
+              name="username"
+              placeholder="Full Name"
+              value={formData.username}
+              onChange={handleChange}
+              required
+              className="w-full px-4 py-3 border rounded-xl bg-purple-50 border-pink-200 
+                         focus:ring-2 focus:ring-pink-400 focus:outline-none text-gray-700"
+            />
 
-          {/* Email*/}
-          <input
-            type="email"
-            name="email"
-            placeholder="Enter email"
-            value={formData.email}
-            onChange={handleChange}
-            required
-            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
+            {/* Password */}
+            <input
+              type="password"
+              name="password"
+              placeholder="Password"
+              value={formData.password}
+              onChange={handleChange}
+              required
+              className="w-full px-4 py-3 border rounded-xl bg-purple-50 border-pink-200 
+                         focus:ring-2 focus:ring-pink-400 focus:outline-none text-gray-700"
+            />
 
-          {/* Phone Number*/}
-          <input
-            type="tel"
-            name="phoneNumber"
-            placeholder="Enter Phone Number"
-            value={formData.phoneNumber}
-            onChange={handleChange}
-            required
-            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
+            {/* Email */}
+            <input
+              type="email"
+              name="email"
+              placeholder="Email Address"
+              value={formData.email}
+              onChange={handleChange}
+              required
+              className="w-full px-4 py-3 border rounded-xl bg-purple-50 border-pink-200 
+                         focus:ring-2 focus:ring-pink-400 focus:outline-none text-gray-700"
+            />
 
-          {/* Customer/Manager */}
-          <select
-            name="role"
-            value={formData.role}
-            onChange={handleChange}
-            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-          >
-            <option value="CUSTOMER">Customer</option>
-            <option value="MANAGER"> Manager</option>
-          </select>
+            {/* Phone Number */}
+            <input
+              type="tel"
+              name="phoneNumber"
+              placeholder="Phone Number"
+              value={formData.phoneNumber}
+              onChange={handleChange}
+              required
+              className="w-full px-4 py-3 border rounded-xl bg-purple-50 border-pink-200 
+                         focus:ring-2 focus:ring-pink-400 focus:outline-none text-gray-700"
+            />
 
-          {/*Submit Button*/}
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full bg-blue-600 text-white py-2 rounded-lg font-semibold hover:bg-blue-700 disabled:opacity-50"
-          >
-            {loading ? "Registering..." : "Register"}
-          </button>
+            {/* Role */}
+            <select
+              name="role"
+              value={formData.role}
+              onChange={handleChange}
+              className="w-full px-4 py-3 border rounded-xl bg-purple-50 border-pink-200 
+                         focus:ring-2 focus:ring-pink-400 focus:outline-none text-gray-700"
+            >
+              <option value="CUSTOMER">Customer</option>
+            </select>
 
-        </form>
-        <p className="text-center mt-4">
-          Already have account? {' '}
-          <a href="/login" className="text-blue-600 hover:underline">
-            Login
-          </a>
-        </p>
+            {/* Submit Button */}
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full bg-linear-to-r from-purple-600 via-pink-500 to-pink-600 
+                         text-white py-3 rounded-xl font-bold text-lg shadow-xl 
+                         hover:opacity-90 transform hover:scale-[1.02] transition-all
+                         disabled:opacity-50"
+            >
+              {loading ? "Registering..." : "Register"}
+            </button>
+          </form>
+
+          <p className="text-center mt-4 text-gray-700">
+            Already have an account?{" "}
+            <a
+              href="/login"
+              className="font-semibold text-pink-600 hover:underline"
+            >
+              Login
+            </a>
+          </p>
+        </div>
       </div>
     </div>
   );
 };
+
 
 export default Register;

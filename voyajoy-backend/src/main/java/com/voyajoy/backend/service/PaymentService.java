@@ -69,8 +69,9 @@ public class PaymentService implements IPaymentService{
     	}
     	
     	
-    	 Double expectedAmount = booking.getDestination().getAdvancePayment();
-         if (!request.getAmount().equals(expectedAmount)) {
+    	 Double expectedAmount = (booking.getDestination().getAdvancePayment()) * booking.getTotalTravelers();
+        
+    	 if (!request.getAmount().equals(expectedAmount)) {
              throw new InvalidInputException("Payment amount must be ₹" + expectedAmount);
          }
          

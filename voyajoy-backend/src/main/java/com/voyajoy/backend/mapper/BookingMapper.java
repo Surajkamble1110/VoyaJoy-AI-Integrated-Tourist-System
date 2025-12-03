@@ -18,7 +18,7 @@ public class BookingMapper {
 		            booking.getTotalTravelers(),
 		            booking.getTotalAmount(),
 		            booking.getAdvancePaid(),
-		            booking.getDestination().getAdvancePayment(),
+		            booking.getDestination().getAdvancePayment()*booking.getTotalTravelers(),
 		            booking.getSpecialRequest(),
 		            booking.getBookingStatus(),
 		            booking.getUser().getUserId(),

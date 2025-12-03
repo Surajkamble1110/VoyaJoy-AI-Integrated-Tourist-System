@@ -38,30 +38,30 @@ public class SecurityConfig {
 		http .csrf(csrf -> csrf.disable()) 
 		.authorizeHttpRequests(auth -> auth
 				.requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-				.requestMatchers("/api/auth/register", "/api/auth/login").permitAll()
-				.requestMatchers("/api/destination/all-destinations",
-						          "/api/destination/profile/**",
-						          "/api/destination/by-name/**",
-						          "/api/destination/by-location/**",
-						          "/api/destination/by-range/**").permitAll()
+				.requestMatchers("/voyajoy/api/auth/register", "/voyajoy/api/auth/login").permitAll()
+				.requestMatchers("/voyajoy/api/destination/all-destinations",
+						          "/voyajoy/api/destination/profile/**",
+						          "/voyajoy/api/destination/by-name/**",
+						          "/voyajoy/api/destination/by-location/**",
+						          "/voyajoy/api/destination/by-range/**").permitAll()
 				
 				//CUSTOMER ROLE 
-				.requestMatchers("/api/booking/**").hasRole("CUSTOMER")
-				.requestMatchers("/api/payment/create",
-						         "/api/payment/my-payments").hasRole("CUSTOMER")
+				.requestMatchers("/voyajoy/api/booking/**").hasRole("CUSTOMER")
+				.requestMatchers("/voyajoy/api/payment/create",
+						         "/voyajoy/api/payment/my-payments").hasRole("CUSTOMER")
 				
 				//CUSTOMER ND manager
-				.requestMatchers("/api/user/**").hasAnyRole("CUSTOMER", "MANAGER")
+				.requestMatchers("/voyajoy/api/user/**").hasAnyRole("CUSTOMER", "MANAGER")
 				
 				
 				//MANAGER ROLE
-				.requestMatchers("/api/manager/**").hasRole("MANAGER")
-				.requestMatchers("/api/destination/add-destination",
-				  "/api/destination/update-destination/**",
-				 "/api/destination/delete-destination/**").hasRole("MANAGER")
-				.requestMatchers("/api/payments/all", 
-		                 "/api/payments/status/**",
-		                 "/api/payments/revenue/**").hasRole("MANAGER")
+				.requestMatchers("/voyajoy/api/manager/**").hasRole("MANAGER")
+				.requestMatchers("/voyajoy/api/destination/add-destination",
+				  "/voyajoy/api/destination/update-destination/**",
+				 "/voyajoy/api/destination/delete-destination/**").hasRole("MANAGER")
+				.requestMatchers("/voyajoy/api/payments/all", 
+		                 "/voyajoy/api/payments/status/**",
+		                 "/voyajoy/api/payments/revenue/**").hasRole("MANAGER")
 				
 				.anyRequest().authenticated()
 		)

@@ -9,12 +9,15 @@ import DestinationDetail from './pages/public/DestinationDetail'
 import BookingPage from './pages/auth/BookingPage'
 import PaymentPage from './pages/auth/PaymentPage'
 import BookingConfirmation from './pages/auth/BookingConfirmation'
+import ManagerDashboard from './pages/auth/ManagerDashboard'
+import CustomerDashboard from './pages/auth/CustomerDashboard'
+import Layout from './components/Layout'
 
 const App = () => {
   return (
     
       <AuthProvider>
-        <Navbar/>
+        <Layout>
         <Routes>
           <Route path="/" element={<Home/>}/>  
           <Route path="/login" element={<Login/>}/>
@@ -24,8 +27,12 @@ const App = () => {
           <Route path="/booking/:bookingId" element={<BookingPage/>}/>
           <Route path="/payment/:bookingId" element={<PaymentPage/>}/>
           <Route path="/booking-confirmation/:bookingId" element={<BookingConfirmation />} />
+         <Route path="/customer/dashboard" element={<CustomerDashboard/>}/>
+        <Route path="/customer/bookings" element={<CustomerDashboard/>}/> 
+        <Route path="/manager/dashboard" element={<ManagerDashboard/>}/>
         </Routes>
         
+        </Layout>
       </AuthProvider>
   )
 }
