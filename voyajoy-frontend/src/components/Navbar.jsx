@@ -1,15 +1,20 @@
-import { useContext } from 'react'
+import { useContext, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 
 const Navbar = () => {
-    
   const { user, logout } = useContext(AuthContext);
   const navigate = useNavigate();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const handleLogout = () => {
     logout();
     navigate("/");
+    setIsMenuOpen(false);
+  };
+
+  const closeMenu = () => {
+    setIsMenuOpen(false);
   };
 
   return (
@@ -18,31 +23,27 @@ const Navbar = () => {
         <div className="max-w-7xl mx-auto px-4 py-4">
           <div className="flex justify-between items-center">
             {/* Logo */}
-            <Link to='/' className="flex items-center gap-2 group"> 
+            <Link to='/' className="flex items-center gap-2 group" onClick={closeMenu}> 
               <span className="text-3xl group-hover:scale-110 transition-transform">🌍</span>
               <span className="text-2xl font-bold bg-linear-to-r from-pink-200 to-white bg-clip-text text-transparent group-hover:from-white group-hover:to-pink-200 transition">
                 VoyaJoy
               </span>
             </Link>
 
-            {/* Navigation Links */}
-            <div className="flex gap-6 items-center">
-              {/* Home */}
+            {/* Desktop Navigation Links */}
+            <div className="hidden lg:flex gap-6 items-center">
               <Link to='/' className="hover:text-pink-200 transition font-medium relative group">
                 Home
                 <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-pink-200 group-hover:w-full transition-all"></span>
               </Link>
               
-              {/* Destinations */}
               <Link to="/destinations" className="hover:text-pink-200 transition font-medium relative group">
                 Destinations
                 <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-pink-200 group-hover:w-full transition-all"></span>
               </Link>
               
-              {/* If user logged in */}
               {user ? (
                 <>
-                  {/* CUSTOMER ROLE */}
                   {user.role === "CUSTOMER" && (
                     <>
                       <Link 
@@ -62,7 +63,6 @@ const Navbar = () => {
                     </>
                   )}
 
-                  {/* MANAGER ROLE */}
                   {user.role === "MANAGER" && (
                     <>
                       <Link 
@@ -90,7 +90,6 @@ const Navbar = () => {
                   </button>
                 </>
               ) : (
-                /* If user not logged in */
                 <>
                   <Link to="/login" className="hover:text-pink-200 transition font-medium relative group">
                     Login
@@ -106,7 +105,112 @@ const Navbar = () => {
                 </>
               )}
             </div>
+
+            {/* Mobile Menu Button */}
+            <button 
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              className="lg:hidden text-white focus:outline-none z-50"
+              aria-label="Toggle menu"
+            >
+              {isMenuOpen ? (
+                <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              ) : (
+                <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+              )}
+            </button>
           </div>
+
+          {/* Mobile Menu */}
+          {isMenuOpen && (
+            <div className="lg:hidden mt-4 pb-4 space-y-3 border-t-2 border-pink-300 pt-4">
+              <Link 
+                to='/' 
+                onClick={closeMenu}
+                className="block hover:text-pink-200 transition font-medium py-2"
+              >
+                🏠 Home
+              </Link>
+              
+              <Link 
+                to="/destinations" 
+                onClick={closeMenu}
+                className="block hover:text-pink-200 transition font-medium py-2"
+              >
+                🌍 Destinations
+              </Link>
+              
+              {user ? (
+                <>
+                  {user.role === "CUSTOMER" && (
+                    <>
+                      <Link 
+                        to='/customer/dashboard' 
+                        onClick={closeMenu}
+                        className="block hover:text-pink-200 transition font-medium py-2"
+                      >
+                        📊 Dashboard
+                      </Link>
+                      <Link 
+                        to='/customer/bookings' 
+                        onClick={closeMenu}
+                        className="block hover:text-pink-200 transition font-medium py-2"
+                      >
+                        🎫 My Bookings
+                      </Link>
+                    </>
+                  )}
+
+                  {user.role === "MANAGER" && (
+                    <>
+                      <Link 
+                        to='/manager/dashboard' 
+                        onClick={closeMenu}
+                        className="block hover:text-pink-200 transition font-medium py-2"
+                      >
+                        📈 Dashboard
+                      </Link>
+                      <Link 
+                        to='/manager/destinations' 
+                        onClick={closeMenu}
+                        className="block hover:text-pink-200 transition font-medium py-2"
+                      >
+                        ⚙️ Manage Destinations
+                      </Link>
+                    </>
+                  )}
+
+                  <button 
+                    onClick={handleLogout}
+                    className="w-full text-left bg-linear-to-r from-pink-500 to-pink-600 hover:from-pink-600 hover:to-pink-700 px-4 py-3 rounded-xl transition font-semibold shadow-lg mt-2"
+                  >
+                    🚪 Logout
+                  </button>
+                </>
+              ) : (
+                <>
+                  <Link 
+                    to="/login" 
+                    onClick={closeMenu}
+                    className="block hover:text-pink-200 transition font-medium py-2"
+                  >
+                    🔐 Login
+                  </Link>
+                  
+                  <Link 
+                    to="/register"
+                    onClick={closeMenu}
+                    className="block bg-white text-purple-700 px-4 py-3 rounded-xl hover:bg-pink-50 transition font-semibold shadow-lg text-center mt-2"
+                  > 
+                    ✨ Register
+                  </Link>
+                </>
+              )}
+            </div>
+          )}
         </div>
 
         {/* Bottom Gradient Line */}
