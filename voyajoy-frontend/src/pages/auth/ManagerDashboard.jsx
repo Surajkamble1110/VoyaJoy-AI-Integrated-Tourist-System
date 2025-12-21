@@ -4,7 +4,7 @@ import { AuthContext } from '../../context/AuthContext';
 import axios from 'axios';
 import ErrorHandler from '../../services/ErrorHandler';
 
-const API_BASE_URL = "https://profound-gratitude-production-042f.up.railway.app/voyajoy/api";
+const API_BASE_URL = "https://voyajoy-backend.onrender.com/voyajoy/api";
 
 const ManagerDashboard = () => {
   const { user, token } = useContext(AuthContext);

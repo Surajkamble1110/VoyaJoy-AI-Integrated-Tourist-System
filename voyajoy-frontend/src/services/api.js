@@ -1,7 +1,7 @@
 import axios from "axios";
 
 
-const API_BASE_URL = "https://profound-gratitude-production-042f.up.railway.app/voyajoy/api";
+const API_BASE_URL = "https://voyajoy-backend.onrender.com/voyajoy/api";
 
 const api = axios.create({
 
